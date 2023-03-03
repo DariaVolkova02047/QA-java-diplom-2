@@ -15,8 +15,8 @@ public class ChangeUserTest {
     private UserClient userClient;
     private User user;
     private String accessToken;
-    private final String authErrorMessage = "You should be authorised";
-    private final String existsEmailError = "User with such email already exists";
+    private final String AUTH_ERROR_MESSAGEauthErrorMessae = "You should be authorised";
+    private final String EXIST_EMAIL_ERROR = "User with such email already exists";
 
 
     @Before
@@ -34,16 +34,16 @@ public class ChangeUserTest {
         User updateUser = Generator.getRandomUser();
         Response UpdateUserResponse = userClient.updateUser(updateUser, accessToken);
 
-        int StatusCode = UpdateUserResponse.getStatusCode();
+        int statusCode = UpdateUserResponse.getStatusCode();
         assertThat(statusCode, equalTo(SC_OK));
 
         boolean IsUpdateUserResponseSuccess = UpdateUserResponse.jsonPath().getBoolean("success");
         assertTrue(isUpdateUserResponseSuccess);
 
-        String Email = UpdateUserResponse.jsonPath().getString("user.email");
+        String email = UpdateUserResponse.jsonPath().getString("user.email");
         assertEquals(updateUser.getEmail().toLowerCase(), email);
 
-        String Name = UpdateUserResponse.jsonPath().getString("user.name");
+        String name = UpdateUserResponse.jsonPath().getString("user.name");
         assertEquals(updateUser.getName(), name);
     }
 
@@ -52,10 +52,10 @@ public class ChangeUserTest {
     public void changeUserDataWithoutLogin() {
         Response UpdateUserResponse = userClient.updateUser(Generator.getRandomUser(), "");
 
-        int StatusCode = UpdateUserResponse.getStatusCode();
+        int statusCode = UpdateUserResponse.getStatusCode();
         assertThat(statusCode, equalTo(SC_UNAUTHORIZED));
 
-        String Message = UpdateUserResponse.jsonPath().getString("message");
+        String message = UpdateUserResponse.jsonPath().getString("message");
         assertEquals(authErrorMessage, message);
     }
 
@@ -65,13 +65,13 @@ public class ChangeUserTest {
         User updatEmailUser = new User(Generator.getRandomUser().getEmail(), user.getPassword(), user.getName());
         Response UpdateUserResponse = userClient.updateUser(updatEmailUser, accessToken);
 
-        int StatusCode = UpdateUserResponse.getStatusCode();
+        int statusCode = UpdateUserResponse.getStatusCode();
         assertThat(statusCode, equalTo(SC_OK));
 
         boolean IsUpdateUserResponseSuccess = UpdateUserResponse.jsonPath().getBoolean("success");
         assertTrue(isUpdateUserResponseSuccess);
 
-        String Email = UpdateUserResponse.jsonPath().getString("user.email");
+        String email = UpdateUserResponse.jsonPath().getString("user.email");
         assertEquals(updatEmailUser.getEmail().toLowerCase(), email);
 
     }
@@ -86,7 +86,7 @@ public class ChangeUserTest {
         boolean ResponseSuccess = UpdateUserResponse.jsonPath().getBoolean("success");
         Assert.assertTrue(responseSuccess);
 
-        int StatusCode = UpdateUserResponse.getStatusCode();
+        int statusCode = UpdateUserResponse.getStatusCode();
         Assert.assertEquals(statusCode, SC_OK);
     }
 
@@ -97,15 +97,15 @@ public class ChangeUserTest {
         userClient.createUser(newUser);
 
         Response responseLoginNewUser = userClient.login(UserCredentials.from(newUser));
-        String NewUserEmail = responseLoginNewUser.body().jsonPath().getString("user.email");
+        String newUserEmail = responseLoginNewUser.body().jsonPath().getString("user.email");
 
         User updateExistsEmailUser = new User(NewUserEmail, user.getPassword(), user.getName());
         Response responseRegUpdateUser = userClient.updateUser(updateExistsEmailUser, accessToken);
 
-        int StatusCode = responseRegUpdateUser.getStatusCode();
+        int statusCode = responseRegUpdateUser.getStatusCode();
         assertThat(statusCode, equalTo(SC_FORBIDDEN));
 
-        String Message = responseRegUpdateUser.jsonPath().getString("message");
+        String message = responseRegUpdateUser.jsonPath().getString("message");
         assertEquals(existsEmailError, message);
     }
 

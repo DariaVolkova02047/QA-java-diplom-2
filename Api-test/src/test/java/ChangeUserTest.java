@@ -32,12 +32,12 @@ public class ChangeUserTest {
     @DisplayName("Изменение данных")
     public void changeUserDataWithLogin() {
         User updateUser = Generator.getRandomUser();
-        Response UpdateUserResponse = userClient.updateUser(updateUser, accessToken);
+        Response updateUserResponse = userClient.updateUser(updateUser, accessToken);
 
         int statusCode = UpdateUserResponse.getStatusCode();
         assertThat(statusCode, equalTo(SC_OK));
 
-        boolean IsUpdateUserResponseSuccess = UpdateUserResponse.jsonPath().getBoolean("success");
+        boolean isUpdateUserResponseSuccess = UpdateUserResponse.jsonPath().getBoolean("success");
         assertTrue(isUpdateUserResponseSuccess);
 
         String email = UpdateUserResponse.jsonPath().getString("user.email");

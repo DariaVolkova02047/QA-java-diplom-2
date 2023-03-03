@@ -61,7 +61,7 @@ public class ChangeUserTest {
 
     @Test
     @DisplayName("Изменение email с авторизацией")
-    public void ChangeUserEmailTest() {
+    public void changeUserEmailTest() {
         User updatEmailUser = new User(Generator.getRandomUser().getEmail(), user.getPassword(), user.getName());
         Response UpdateUserResponse = userClient.updateUser(updatEmailUser, accessToken);
 
@@ -78,7 +78,7 @@ public class ChangeUserTest {
 
     @Test
     @DisplayName("Изменение password с авторизацией")
-    public void ChangeUserPasswordTest() {
+    public void changeUserPasswordTest() {
         String NewPassword = Generator.getRandomUser().getPassword();
         User newUser = new User(user.getEmail(), newPassword, user.getName());
         var UpdateUserResponse = userClient.updateUser(newUser, accessToken);
@@ -92,7 +92,7 @@ public class ChangeUserTest {
 
     @Test
     @DisplayName("Передаем почту, которая уже используется")
-    public void ChangeEmailToUsedEmail() {
+    public void changeEmailToUsedEmail() {
         User newUser = Generator.getRandomUser();
         userClient.createUser(newUser);
 

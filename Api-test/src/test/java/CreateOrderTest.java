@@ -33,13 +33,13 @@ public class CreateOrderTest {
         order = Order.getDefaultOrder();
         Response orderResponse = orderClient.orderCreate(order, accessToken);
 
-        int StatusCode = orderResponse.getStatusCode();
+        int statusCode = orderResponse.getStatusCode();
         Assert.assertEquals(SC_OK, statusCode);
 
-        boolean OrderCreate = orderResponse.jsonPath().getBoolean("success");
+        boolean orderCreate = orderResponse.jsonPath().getBoolean("success");
         Assert.assertTrue(orderCreate);
 
-        int OrderNumber = orderResponse.jsonPath().getInt("order.number");
+        int orderNumber = orderResponse.jsonPath().getInt("order.number");
         Assert.assertNotEquals(0, orderNumber);
     }
 
@@ -49,7 +49,7 @@ public class CreateOrderTest {
         order = Order.getDefaultOrder();
         Response response = orderClient.orderCreate(order, "");
 
-        int StatusCode = response.getStatusCode();
+        int statusCode = response.getStatusCode();
         Assert.assertEquals(SC_OK, statusCode);
 
         boolean OrderCreate = response.jsonPath().getBoolean("success");
@@ -62,13 +62,13 @@ public class CreateOrderTest {
         Order order = new Order(null);
         Response response = orderClient.orderCreate(order, "accessToken");
 
-        int StatusCode = response.getStatusCode();
+        int statusCode = response.getStatusCode();
         Assert.assertEquals(SC_BAD_REQUEST, statusCode);
 
         boolean OrderCreate = response.jsonPath().getBoolean("success");
         Assert.assertFalse(orderCreate);
 
-        String Message = response.jsonPath().getString("message");
+        string Message = response.jsonPath().getString("message");
         Assert.assertEquals(errorNullIngredients, message);
     }
 
@@ -78,7 +78,7 @@ public class CreateOrderTest {
         order = Order.getOrderIncorrectHash();
         Response response = orderClient.orderCreate(order, accessToken);
 
-        int StatusCode = response.getStatusCode();
+        int statusCode = response.getStatusCode();
         Assert.assertEquals(SC_INTERNAL_SERVER_ERROR, statusCode);
     }
 

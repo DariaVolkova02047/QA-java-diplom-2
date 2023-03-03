@@ -15,7 +15,7 @@ public class CreateOrderTest {
     private UserClient userClient;
     private String accessToken;
 
-    private static final String ErrorNullIngredients = "Ingredient ids must be provided";
+    private static final String ERROR_NULL_INGREDIENTS = "Ingredient ids must be provided";
 
     @Before
     public void setUp() {

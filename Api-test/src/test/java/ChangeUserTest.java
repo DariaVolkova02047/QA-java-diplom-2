@@ -79,7 +79,7 @@ public class ChangeUserTest {
     @Test
     @DisplayName("Изменение password с авторизацией")
     public void changeUserPasswordTest() {
-        String NewPassword = Generator.getRandomUser().getPassword();
+        String newPassword = Generator.getRandomUser().getPassword();
         User newUser = new User(user.getEmail(), newPassword, user.getName());
         var UpdateUserResponse = userClient.updateUser(newUser, accessToken);
 

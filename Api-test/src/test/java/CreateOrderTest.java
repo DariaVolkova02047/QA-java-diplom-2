@@ -52,7 +52,7 @@ public class CreateOrderTest {
         int statusCode = response.getStatusCode();
         Assert.assertEquals(SC_OK, statusCode);
 
-        boolean OrderCreate = response.jsonPath().getBoolean("success");
+        boolean orderCreate = response.jsonPath().getBoolean("success");
         Assert.assertTrue(orderCreate);
     }
 
@@ -65,7 +65,7 @@ public class CreateOrderTest {
         int statusCode = response.getStatusCode();
         Assert.assertEquals(SC_BAD_REQUEST, statusCode);
 
-        boolean OrderCreate = response.jsonPath().getBoolean("success");
+        boolean orderCreate = response.jsonPath().getBoolean("success");
         Assert.assertFalse(orderCreate);
 
         string Message = response.jsonPath().getString("message");

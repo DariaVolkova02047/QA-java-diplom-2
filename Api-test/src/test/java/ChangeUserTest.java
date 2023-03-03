@@ -34,16 +34,16 @@ public class ChangeUserTest {
         User updateUser = Generator.getRandomUser();
         Response UpdateUserResponse = userClient.updateUser(updateUser, accessToken);
 
-        int statusCode = UpdateUserResponse.getStatusCode();
+        int StatusCode = UpdateUserResponse.getStatusCode();
         assertThat(statusCode, equalTo(SC_OK));
 
-        boolean isUpdateUserResponseSuccess = UpdateUserResponse.jsonPath().getBoolean("success");
+        boolean IsUpdateUserResponseSuccess = UpdateUserResponse.jsonPath().getBoolean("success");
         assertTrue(isUpdateUserResponseSuccess);
 
-        String email = UpdateUserResponse.jsonPath().getString("user.email");
+        String Email = UpdateUserResponse.jsonPath().getString("user.email");
         assertEquals(updateUser.getEmail().toLowerCase(), email);
 
-        String name = UpdateUserResponse.jsonPath().getString("user.name");
+        String Name = UpdateUserResponse.jsonPath().getString("user.name");
         assertEquals(updateUser.getName(), name);
     }
 
@@ -52,47 +52,47 @@ public class ChangeUserTest {
     public void changeUserDataWithoutLogin() {
         Response UpdateUserResponse = userClient.updateUser(Generator.getRandomUser(), "");
 
-        int statusCode = UpdateUserResponse.getStatusCode();
+        int StatusCode = UpdateUserResponse.getStatusCode();
         assertThat(statusCode, equalTo(SC_UNAUTHORIZED));
 
-        String message = UpdateUserResponse.jsonPath().getString("message");
+        String Message = UpdateUserResponse.jsonPath().getString("message");
         assertEquals(authErrorMessage, message);
     }
 
     @Test
     @DisplayName("Изменение email с авторизацией")
-    public void changeUserEmailTest() {
+    public void ChangeUserEmailTest() {
         User updatEmailUser = new User(Generator.getRandomUser().getEmail(), user.getPassword(), user.getName());
         Response UpdateUserResponse = userClient.updateUser(updatEmailUser, accessToken);
 
-        int statusCode = UpdateUserResponse.getStatusCode();
+        int StatusCode = UpdateUserResponse.getStatusCode();
         assertThat(statusCode, equalTo(SC_OK));
 
-        boolean isUpdateUserResponseSuccess = UpdateUserResponse.jsonPath().getBoolean("success");
+        boolean IsUpdateUserResponseSuccess = UpdateUserResponse.jsonPath().getBoolean("success");
         assertTrue(isUpdateUserResponseSuccess);
 
-        String email = UpdateUserResponse.jsonPath().getString("user.email");
+        String Email = UpdateUserResponse.jsonPath().getString("user.email");
         assertEquals(updatEmailUser.getEmail().toLowerCase(), email);
 
     }
 
     @Test
     @DisplayName("Изменение password с авторизацией")
-    public void changeUserPasswordTest() {
-        String newPassword = Generator.getRandomUser().getPassword();
+    public void ChangeUserPasswordTest() {
+        String NewPassword = Generator.getRandomUser().getPassword();
         User newUser = new User(user.getEmail(), newPassword, user.getName());
         var UpdateUserResponse = userClient.updateUser(newUser, accessToken);
 
-        boolean responseSuccess = UpdateUserResponse.jsonPath().getBoolean("success");
+        boolean ResponseSuccess = UpdateUserResponse.jsonPath().getBoolean("success");
         Assert.assertTrue(responseSuccess);
 
-        int statusCode = UpdateUserResponse.getStatusCode();
+        int StatusCode = UpdateUserResponse.getStatusCode();
         Assert.assertEquals(statusCode, SC_OK);
     }
 
     @Test
     @DisplayName("Передаем почту, которая уже используется")
-    public void changeEmailToUsedEmail() {
+    public void ChangeEmailToUsedEmail() {
         User newUser = Generator.getRandomUser();
         userClient.createUser(newUser);
 
@@ -102,10 +102,10 @@ public class ChangeUserTest {
         User updateExistsEmailUser = new User(NewUserEmail, user.getPassword(), user.getName());
         Response responseRegUpdateUser = userClient.updateUser(updateExistsEmailUser, accessToken);
 
-        int statusCode = responseRegUpdateUser.getStatusCode();
+        int StatusCode = responseRegUpdateUser.getStatusCode();
         assertThat(statusCode, equalTo(SC_FORBIDDEN));
 
-        String message = responseRegUpdateUser.jsonPath().getString("message");
+        String Message = responseRegUpdateUser.jsonPath().getString("message");
         assertEquals(existsEmailError, message);
     }
 

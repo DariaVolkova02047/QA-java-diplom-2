@@ -15,7 +15,7 @@ public class CreateOrderTest {
     private UserClient userClient;
     private String accessToken;
 
-    private static final String errorNullIngredients = "Ingredient ids must be provided";
+    private static final String ErrorNullIngredients = "Ingredient ids must be provided";
 
     @Before
     public void setUp() {
@@ -33,13 +33,13 @@ public class CreateOrderTest {
         order = Order.getDefaultOrder();
         Response orderResponse = orderClient.orderCreate(order, accessToken);
 
-        int statusCode = orderResponse.getStatusCode();
+        int StatusCode = orderResponse.getStatusCode();
         Assert.assertEquals(SC_OK, statusCode);
 
-        boolean orderCreate = orderResponse.jsonPath().getBoolean("success");
+        boolean OrderCreate = orderResponse.jsonPath().getBoolean("success");
         Assert.assertTrue(orderCreate);
 
-        int orderNumber = orderResponse.jsonPath().getInt("order.number");
+        int OrderNumber = orderResponse.jsonPath().getInt("order.number");
         Assert.assertNotEquals(0, orderNumber);
     }
 
@@ -49,10 +49,10 @@ public class CreateOrderTest {
         order = Order.getDefaultOrder();
         Response response = orderClient.orderCreate(order, "");
 
-        int statusCode = response.getStatusCode();
+        int StatusCode = response.getStatusCode();
         Assert.assertEquals(SC_OK, statusCode);
 
-        boolean orderCreate = response.jsonPath().getBoolean("success");
+        boolean OrderCreate = response.jsonPath().getBoolean("success");
         Assert.assertTrue(orderCreate);
     }
 
@@ -62,13 +62,13 @@ public class CreateOrderTest {
         Order order = new Order(null);
         Response response = orderClient.orderCreate(order, "accessToken");
 
-        int statusCode = response.getStatusCode();
+        int StatusCode = response.getStatusCode();
         Assert.assertEquals(SC_BAD_REQUEST, statusCode);
 
-        boolean orderCreate = response.jsonPath().getBoolean("success");
+        boolean OrderCreate = response.jsonPath().getBoolean("success");
         Assert.assertFalse(orderCreate);
 
-        String message = response.jsonPath().getString("message");
+        String Message = response.jsonPath().getString("message");
         Assert.assertEquals(errorNullIngredients, message);
     }
 
@@ -78,7 +78,7 @@ public class CreateOrderTest {
         order = Order.getOrderIncorrectHash();
         Response response = orderClient.orderCreate(order, accessToken);
 
-        int statusCode = response.getStatusCode();
+        int StatusCode = response.getStatusCode();
         Assert.assertEquals(SC_INTERNAL_SERVER_ERROR, statusCode);
     }
 

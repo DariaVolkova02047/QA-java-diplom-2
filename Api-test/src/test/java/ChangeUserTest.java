@@ -15,7 +15,7 @@ public class ChangeUserTest {
     private UserClient userClient;
     private User user;
     private String accessToken;
-    private final String AUTH_ERROR_MESSAGEauthErrorMessae = "You should be authorised";
+    private final String AUTH_ERROR_MESSAGE = "You should be authorised";
     private final String EXIST_EMAIL_ERROR = "User with such email already exists";
 
 
@@ -68,7 +68,7 @@ public class ChangeUserTest {
         int statusCode = UpdateUserResponse.getStatusCode();
         assertThat(statusCode, equalTo(SC_OK));
 
-        boolean IsUpdateUserResponseSuccess = UpdateUserResponse.jsonPath().getBoolean("success");
+        boolean isUpdateUserResponseSuccess = UpdateUserResponse.jsonPath().getBoolean("success");
         assertTrue(isUpdateUserResponseSuccess);
 
         String email = UpdateUserResponse.jsonPath().getString("user.email");
@@ -83,7 +83,7 @@ public class ChangeUserTest {
         User newUser = new User(user.getEmail(), newPassword, user.getName());
         var UpdateUserResponse = userClient.updateUser(newUser, accessToken);
 
-        boolean ResponseSuccess = UpdateUserResponse.jsonPath().getBoolean("success");
+        boolean responseSuccess = UpdateUserResponse.jsonPath().getBoolean("success");
         Assert.assertTrue(responseSuccess);
 
         int statusCode = UpdateUserResponse.getStatusCode();
